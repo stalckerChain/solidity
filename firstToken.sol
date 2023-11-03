@@ -1,4 +1,5 @@
 +негры пидорасы
+сам такой :(
 
 // SPDX-License-Identifier: GPL-3.0
 
