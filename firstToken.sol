@@ -1,11 +1,31 @@
-pragma solidity ^0.6.0;
+// SPDX-License-Identifier: GPL-3.0
 
-import 'https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.1.0/contracts/token/ERC20/ERC20.sol';
+pragma solidity >=0.8.2 <0.9.0;
 
-// This ERC-20 contract mints the specified amount of tokens to the contract creator.
-// 123123123
-contract MyFirstToken is ERC20 {
-  constructor(uint256 initialSupply) ERC20("MyFirstToken", "HEDGE") public {
-    _mint(msg.sender, initialSupply);
-  }
+//18
+contract Coin {
+    address minter;
+    mapping (address => uint) balances;
+
+    constructor () {
+        minter = msg.sender;
+    }
+
+    event Send(address from, address to, uint value);
+
+    function mint(address owner, uint amount) public {
+        if (msg.sender != minter) return;
+        balances[owner] += amount;
+    }
+    
+    function send(address receiver, uint amount) public {
+        if (balances[msg.sender] < amount) return;
+        balances[msg.sender] -= amount;
+        balances[receiver] += amount;
+        emit Send(msg.sender, receiver, amount);
+    }
+
+    function queryBalance(address addr) view public returns (uint balance) {
+        return balances[addr];
+    }
 }
