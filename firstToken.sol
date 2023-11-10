@@ -9,6 +9,9 @@ contract Coin {
 
     constructor () {
         minter = msg.sender;
+        minter.balance();
+        minter.send();
+        minter.transfer();
     }
 
     event Send(address from, address to, uint value);
